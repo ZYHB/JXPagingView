@@ -16,18 +16,13 @@ class ListViewController: UIViewController {
     var isNeedHeader = false
     var isNeedFooter = false
     var isHeaderRefreshed = false
-    
-    // 不加上这一层，盲人模式无法选中cell！！！
-    lazy var wrapperView = UIView.init(frame: .zero)
 
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        wrapperView.isAccessibilityElement = false
-        wrapperView.accessibilityElements = [tableView]
-        view.addSubview(wrapperView)
-
+        view.isAccessibilityElement = false
+        view.accessibilityElements = [tableView]
 
         tableView.backgroundColor = UIColor.white
         tableView.tableFooterView = UIView()
@@ -36,7 +31,7 @@ class ListViewController: UIViewController {
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
         //列表的contentInsetAdjustmentBehavior失效，需要自己设置底部inset
         tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: UIApplication.shared.keyWindow!.jx_layoutInsets().bottom, right: 0)
-        wrapperView.addSubview(tableView)
+        view.addSubview(tableView)
         if isNeedHeader {
             self.tableView.mj_header = MJRefreshNormalHeader(refreshingTarget: self, refreshingAction: #selector(headerRefresh))
         }
@@ -48,7 +43,6 @@ class ListViewController: UIViewController {
 
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        wrapperView.frame = view.bounds
         tableView.frame = view.bounds
     }
 
@@ -114,7 +108,7 @@ extension ListViewController: JXPagingViewListViewDelegate {
     
     func listDidAppear() {
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) { [weak self] in
-            self?.setAccessibilityFocus(in: self?.wrapperView)
+            self?.setAccessibilityFocus(in: self?.view)
         }
     }
 }
