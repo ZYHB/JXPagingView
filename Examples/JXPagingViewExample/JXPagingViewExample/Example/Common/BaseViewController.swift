@@ -23,6 +23,12 @@ class BaseViewController: UIViewController, JXSegmentedViewDelegate {
     var isNeedHeader = false
     var isNeedFooter = false
 
+    
+    lazy var segmentedViewWrapperView:UIView = UIView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.size.width, height: CGFloat(headerInSectionHeight)))
+    
+    lazy var fouscView:AccessibilityTransferView = AccessibilityTransferView()
+
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -39,6 +45,14 @@ class BaseViewController: UIViewController, JXSegmentedViewDelegate {
         segmentedView.delegate = self
         segmentedView.isContentScrollViewClickTransitionAnimationEnabled = false
         segmentedView.dataSource = dataSource
+        
+        fouscView.isAccessibilityElement = true
+        fouscView.accessibilityLabel = "这是最后一个"
+        segmentedViewWrapperView.addSubview(segmentedView)
+        segmentedViewWrapperView.isAccessibilityElement = false
+        segmentedViewWrapperView.accessibilityElements = [segmentedView, fouscView]
+        
+        
 
         let lineView = JXSegmentedIndicatorLineView()
         lineView.indicatorColor = UIColor(red: 105/255, green: 144/255, blue: 239/255, alpha: 1)
@@ -126,7 +140,7 @@ extension BaseViewController: JXPagingViewDelegate {
     }
 
     func viewForPinSectionHeader(in pagingView: JXPagingView) -> UIView {
-        return segmentedView
+        return segmentedViewWrapperView
     }
 
     func numberOfLists(in pagingView: JXPagingView) -> Int {

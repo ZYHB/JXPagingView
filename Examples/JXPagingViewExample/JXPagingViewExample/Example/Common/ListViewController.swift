@@ -107,8 +107,8 @@ extension ListViewController: JXPagingViewListViewDelegate {
     }
     
     func listDidAppear() {
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) { [weak self] in
-            self?.setAccessibilityFocus(in: self?.view)
-        }
+//        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) { [weak self] in
+//            self?.setAccessibilityFocus(in: self)
+//        }
     }
 }
