@@ -18,12 +18,12 @@ class ListRefreshViewController: BaseViewController {
         self.isNeedHeader = true
             
        // 该View失去焦点后，重置底部控制器的焦点
-        self.fouscView.didLoseFocusHandler = { message in
-            print("Received message: \(message)")
-            if let vc = self.pagingView.listContainerView.validListDict[self.segmentedView.selectedIndex] {
-                self.setAccessibilityFocus(in: vc)
-            }
-        }
+//        self.fouscView.didLoseFocusHandler = { message in
+//            print("Received message: \(message)")
+//            if let vc = self.pagingView.listContainerView.validListDict[self.segmentedView.selectedIndex] {
+//                self.setAccessibilityFocus(in: vc)
+//            }
+//        }
     }
     
     override func preferredPagingView() -> JXPagingView {
@@ -52,12 +52,12 @@ class ListRefreshViewController: BaseViewController {
 //
 //    }
     
-    override func segmentedView(_ segmentedView: JXSegmentedView, didSelectedItemAt index: Int) {
-        if let vc = self.pagingView.listContainerView.validListDict[index] {
-//            self.setAccessibilityFocus(in: vc)
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) { [weak self] in
-                self?.setAccessibilityFocus(in: vc)
-            }
-        }
-    }
+//    override func segmentedView(_ segmentedView: JXSegmentedView, didSelectedItemAt index: Int) {
+////        if let vc = self.pagingView.listContainerView.validListDict[index] {
+//////            self.setAccessibilityFocus(in: vc)
+////            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) { [weak self] in
+////                self?.setAccessibilityFocus(in: vc)
+////            }
+////        }
+//    }
 }

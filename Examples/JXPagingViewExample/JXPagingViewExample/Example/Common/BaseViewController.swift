@@ -22,12 +22,6 @@ class BaseViewController: UIViewController, JXSegmentedViewDelegate {
     var headerInSectionHeight: Int = 50
     var isNeedHeader = false
     var isNeedFooter = false
-
-    
-    lazy var segmentedViewWrapperView:UIView = UIView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.size.width, height: CGFloat(headerInSectionHeight)))
-    
-    lazy var fouscView:AccessibilityTransferView = AccessibilityTransferView()
-
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -45,13 +39,6 @@ class BaseViewController: UIViewController, JXSegmentedViewDelegate {
         segmentedView.delegate = self
         segmentedView.isContentScrollViewClickTransitionAnimationEnabled = false
         segmentedView.dataSource = dataSource
-        
-        fouscView.isAccessibilityElement = true
-        fouscView.accessibilityLabel = "这是最后一个"
-        segmentedViewWrapperView.addSubview(segmentedView)
-        segmentedViewWrapperView.isAccessibilityElement = false
-        segmentedViewWrapperView.accessibilityElements = [segmentedView, fouscView]
-        
         
 
         let lineView = JXSegmentedIndicatorLineView()
@@ -80,6 +67,9 @@ class BaseViewController: UIViewController, JXSegmentedViewDelegate {
         super.viewDidAppear(animated)
 
         self.navigationController?.interactivePopGestureRecognizer?.isEnabled = (segmentedView.selectedIndex == 0)
+        
+//        self.pagingView.isAccessibilityElement = false
+//        self.pagingView.accessibilityElements = [userHeaderView,self.segmentedView,self.pagingView.listContainerView.validListDict[self.segmentedView.selectedIndex]?.listView()]
     }
 
     override func viewWillDisappear(_ animated: Bool) {
@@ -122,6 +112,10 @@ class BaseViewController: UIViewController, JXSegmentedViewDelegate {
 
     func segmentedView(_ segmentedView: JXSegmentedView, didSelectedItemAt index: Int) {
         self.navigationController?.interactivePopGestureRecognizer?.isEnabled = (index == 0)
+        
+        self.pagingView.isAccessibilityElement = false
+        self.pagingView.accessibilityElements = [userHeaderView,self.segmentedView,self.pagingView.listContainerView.validListDict[self.segmentedView.selectedIndex]?.listView()]
+
     }
 }
 
@@ -140,7 +134,7 @@ extension BaseViewController: JXPagingViewDelegate {
     }
 
     func viewForPinSectionHeader(in pagingView: JXPagingView) -> UIView {
-        return segmentedViewWrapperView
+        return segmentedView
     }
 
     func numberOfLists(in pagingView: JXPagingView) -> Int {
